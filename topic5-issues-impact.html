@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 5 — Issues & Impact</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'Space Grotesk', sans-serif;
+  --bg: #0f1117;
+  --bg2: #161b27;
+  --bg3: #1c2333;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0f4ff;
+  --text2: #8892aa;
+  --text3: #5a6478;
+  /* accent palette */
+  --a1: #7c6aff;   /* violet */
+  --a2: #ff6b6b;   /* coral */
+  --a3: #06d6a0;   /* mint */
+  --a4: #ffd166;   /* amber */
+  --a5: #4ecdc4;   /* teal */
+  --a1d: rgba(124,106,255,0.12);
+  --a2d: rgba(255,107,107,0.12);
+  --a3d: rgba(6,214,160,0.12);
+  --a4d: rgba(255,209,102,0.10);
+  --a5d: rgba(78,205,196,0.10);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+/* ── TOP NAV ── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(15,17,23,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 60px;
+  display: flex; align-items: center;
+  padding: 0 32px;
+  gap: 8px;
+}
+.topnav-brand {
+  font-family: var(--mono);
+  font-size: 1rem; font-weight: 700;
+  color: var(--text);
+  margin-right: 24px;
+  white-space: nowrap;
+}
+.topnav-brand span { color: var(--a1); }
+.nav-tabs { display: flex; gap: 4px; flex: 1; }
+.tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 8px;
+  cursor: pointer; font-size: 0.82rem; font-weight: 600;
+  color: var(--text2); border: 1px solid transparent;
+  transition: all 0.18s; white-space: nowrap;
+}
+.tab:hover { color: var(--text); background: var(--bg3); }
+.tab.active { background: var(--a1d); border-color: rgba(124,106,255,0.25); color: var(--a1); }
+.tab-num {
+  width: 20px; height: 20px; border-radius: 5px;
+  background: var(--bg3); display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 700; color: var(--text3);
+  transition: all 0.18s;
+}
+.tab.active .tab-num { background: var(--a1d); color: var(--a1); }
+
+/* progress pill */
+.progress-pill {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.72rem; font-weight: 600; color: var(--text3);
+  font-family: var(--mono);
+}
+.prog-track { width: 80px; height: 3px; background: var(--bg3); border-radius: 3px; }
+.prog-fill { height: 3px; background: linear-gradient(90deg, var(--a1), var(--a5)); border-radius: 3px; transition: width 0.4s ease; }
+
+/* theme toggle */
+.tgl {
+  width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border2);
+  background: var(--bg3); color: var(--text2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; transition: all 0.18s; margin-left: 8px;
+}
+.tgl:hover { color: var(--text); border-color: var(--a1); }
+
+/* ── PAGE WRAPPER ── */
+.page { padding-top: 60px; max-width: 1100px; margin: 0 auto; }
+
+/* ── SECTIONS ── */
+.section { display: none; padding: 48px 32px 80px; }
+.section.active { display: block; animation: fadeUp 0.35s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── SECTION HEADER ── */
+.sec-header { margin-bottom: 40px; }
+.sec-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent, var(--a1));
+  background: var(--accentd, var(--a1d));
+  border: 1px solid var(--accentb, rgba(124,106,255,0.2));
+  padding: 4px 12px; border-radius: 99px; margin-bottom: 16px;
+}
+.sec-eyebrow i { font-size: 0.8em; }
+.sec-title {
+  font-family: var(--mono); font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--text); margin-bottom: 12px;
+}
+.sec-title span { color: var(--accent, var(--a1)); }
+.sec-desc { font-size: 0.95rem; color: var(--text2); max-width: 620px; line-height: 1.7; }
+
+/* ── STAT STRIP ── */
+.stat-strip { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.stat-card {
+  flex: 1; min-width: 140px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+  position: relative; overflow: hidden;
+}
+.stat-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent, var(--a1));
+}
+.stat-num {
+  font-family: var(--mono); font-size: 1.9rem; font-weight: 700;
+  color: var(--accent, var(--a1)); line-height: 1; margin-bottom: 6px;
+}
+.stat-label { font-size: 0.72rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 32px 0 20px; font-family: var(--mono);
+  font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--accent, var(--a1));
+}
+.divider i { font-size: 0.9em; }
+.divider::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+
+/* ── GRID ── */
+.grid { display: grid; gap: 16px; margin-bottom: 24px; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: 1fr 1fr 1fr; }
+.g-4 { grid-template-columns: 1fr 1fr; }
+
+/* ── CARD ── */
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative; overflow: hidden;
+}
+.card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.card-accent { border-left: 3px solid var(--caccent, var(--a1)); }
+.card-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; margin-bottom: 14px;
+  background: var(--caccent-bg, var(--a1d));
+  color: var(--caccent, var(--a1));
+}
+.card h3 {
+  font-family: var(--mono); font-size: 0.88rem; font-weight: 700;
+  margin-bottom: 10px; color: var(--text); letter-spacing: 0.01em;
+}
+.card p { font-size: 0.875rem; color: var(--text2); line-height: 1.75; }
+.card ul { list-style: none; }
+.card ul li {
+  font-size: 0.875rem; color: var(--text2);
+  padding: 4px 0; display: flex; gap: 8px; align-items: baseline; line-height: 1.6;
+}
+.card ul li::before { content: '›'; color: var(--caccent, var(--a1)); font-weight: 700; flex-shrink: 0; }
+
+/* color variants */
+.cv-violet { --caccent: var(--a1); --caccent-bg: var(--a1d); border-color: rgba(124,106,255,0.15); }
+.cv-coral  { --caccent: var(--a2); --caccent-bg: var(--a2d); border-color: rgba(255,107,107,0.15); }
+.cv-mint   { --caccent: var(--a3); --caccent-bg: var(--a3d); border-color: rgba(6,214,160,0.15); }
+.cv-amber  { --caccent: var(--a4); --caccent-bg: var(--a4d); border-color: rgba(255,209,102,0.15); }
+.cv-teal   { --caccent: var(--a5); --caccent-bg: var(--a5d); border-color: rgba(78,205,196,0.15); }
+
+/* ── CALLOUT ── */
+.callout {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 18px 20px; border-radius: 12px; margin-bottom: 24px;
+  border: 1px solid;
+}
+.callout p { font-size: 0.875rem; color: var(--text); line-height: 1.75; }
+.callout i { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+.callout strong { color: var(--text); }
+.cl-violet { background: var(--a1d); border-color: rgba(124,106,255,0.25); }
+.cl-violet i { color: var(--a1); }
+.cl-coral  { background: var(--a2d); border-color: rgba(255,107,107,0.25); }
+.cl-coral i  { color: var(--a2); }
+.cl-amber  { background: var(--a4d); border-color: rgba(255,209,102,0.25); }
+.cl-amber i  { color: var(--a4); }
+.cl-mint   { background: var(--a3d); border-color: rgba(6,214,160,0.25); }
+.cl-mint i   { color: var(--a3); }
+
+/* ── TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.data-table th {
+  text-align: left; padding: 11px 16px;
+  font-size: 0.72rem; font-weight: 700; font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent, var(--a1)); border-bottom: 2px solid var(--border2);
+}
+.data-table td {
+  padding: 11px 16px; font-size: 0.875rem;
+  color: var(--text2); border-bottom: 1px solid var(--border);
+  line-height: 1.55; vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg3); color: var(--text); }
+.badge {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  font-family: var(--mono); padding: 2px 8px; border-radius: 5px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.badge-high { background: var(--a2d); color: var(--a2); }
+.badge-med  { background: var(--a4d); color: var(--a4); }
+.badge-low  { background: var(--a3d); color: var(--a3); }
+
+/* ── LEGISLATION CARDS ── */
+.law-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 24px; }
+.law-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.law-icon {
+  width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+}
+.law-title { font-family: var(--mono); font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.law-sub { font-size: 0.72rem; color: var(--text3); margin-top: 3px; font-family: var(--mono); }
+.law-year {
+  margin-left: auto; font-family: var(--mono); font-size: 0.78rem;
+  font-weight: 700; padding: 4px 10px; border-radius: 7px;
+}
+.law-body { padding: 24px; }
+.law-body > p { font-size: 0.875rem; color: var(--text2); line-height: 1.75; margin-bottom: 16px; }
+
+/* numbered steps */
+.steps { display: grid; gap: 8px; margin: 16px 0; }
+.step {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px;
+  font-size: 0.875rem; color: var(--text2); line-height: 1.6;
+  transition: border-color 0.18s;
+}
+.step:hover { border-color: var(--border2); color: var(--text); }
+.step-num {
+  font-family: var(--mono); font-size: 1rem; font-weight: 700;
+  color: var(--accent, var(--a1)); flex-shrink: 0; min-width: 20px;
+  line-height: 1.4;
+}
+
+/* tags */
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.tag {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 99px;
+  font-family: var(--mono); border: 1px solid;
+}
+.tag-violet { background: var(--a1d); color: var(--a1); border-color: rgba(124,106,255,0.2); }
+.tag-coral  { background: var(--a2d); color: var(--a2); border-color: rgba(255,107,107,0.2); }
+.tag-mint   { background: var(--a3d); color: var(--a3); border-color: rgba(6,214,160,0.2); }
+.tag-amber  { background: var(--a4d); color: var(--a4); border-color: rgba(255,209,102,0.2); }
+.tag-teal   { background: var(--a5d); color: var(--a5); border-color: rgba(78,205,196,0.2); }
+
+/* ── LIGHT THEME OVERRIDES ── */
+body.light {
+  --bg: #f5f6fa; --bg2: #ffffff; --bg3: #eef0f6;
+  --border: rgba(0,0,0,0.07); --border2: rgba(0,0,0,0.12);
+  --text: #111827; --text2: #4b5563; --text3: #9ca3af;
+  --a1d: rgba(99,83,255,0.08); --a2d: rgba(239,68,68,0.08);
+  --a3d: rgba(5,180,135,0.08); --a4d: rgba(245,158,11,0.08);
+  --a5d: rgba(20,184,166,0.08);
+}
+body.light .topnav { background: rgba(245,246,250,0.9); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .g-2, .g-3, .g-4 { grid-template-columns: 1fr; }
+  .section { padding: 32px 20px 60px; }
+  .stat-strip { flex-direction: column; }
+  .nav-tabs { overflow-x: auto; padding-bottom: 2px; }
+  .progress-pill { display: none; }
+}
+@media (max-width: 540px) {
+  .topnav { padding: 0 16px; gap: 4px; }
+  .topnav-brand { font-size: 0.85rem; margin-right: 8px; }
+  .tab { padding: 5px 10px; font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-brand"><span>T5</span> Issues &amp; Impact</div>
+  <div class="nav-tabs">
+    <div class="tab active" onclick="go(1)"><span class="tab-num">01</span><i class="fas fa-industry"></i> Environmental 1</div>
+    <div class="tab" onclick="go(2)"><span class="tab-num">02</span><i class="fas fa-recycle"></i> Environmental 2</div>
+    <div class="tab" onclick="go(3)"><span class="tab-num">03</span><i class="fas fa-user-shield"></i> Personal Data</div>
+    <div class="tab" onclick="go(4)"><span class="tab-num">04</span><i class="fas fa-gavel"></i> Legislation</div>
+  </div>
+  <div class="progress-pill">
+    <span id="pct">25%</span>
+    <div class="prog-track"><div class="prog-fill" id="pf" style="width:25%"></div></div>
+  </div>
+  <button class="tgl" onclick="toggleTheme()" title="Toggle theme"><i class="fas fa-moon" id="ticon"></i></button>
+</nav>
+
+<div class="page">
+
+<!-- ═══════════════ SECTION 1 ═══════════════ -->
+<div class="section active" id="s1" style="--accent:var(--a3);--accentd:var(--a3d);--accentb:rgba(6,214,160,0.2)">
+
+  <div class="sec-header">
+    <div class="sec-eyebrow"><i class="fas fa-industry"></i> Section 01 · Manufacturing &amp; Energy</div>
+    <h1 class="sec-title">Environmental <span>Issues 1</span></h1>
+    <p class="sec-desc">How digital technology harms the environment — from raw material extraction and energy consumption to the global e-waste crisis.</p>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-card"><div class="stat-num">50M+</div><div class="stat-label">Tons e-waste per year</div></div>
+    <div class="stat-card"><div class="stat-num">~20%</div><div class="stat-label">Properly recycled</div></div>
+    <div class="stat-card"><div class="stat-num">3–4%</div><div class="stat-label">Global CO₂ from tech</div></div>
+    <div class="stat-card"><div class="stat-num">70+</div><div class="stat-label">Elements in one phone</div></div>
+  </div>
+
+  <div class="divider"><i class="fas fa-hard-hat"></i> Manufacture</div>
+  <div class="grid g-2">
+    <div class="card cv-amber">
+      <div class="card-icon"><i class="fas fa-gem"></i></div>
+      <h3>Raw Materials</h3>
+      <p>Large quantities of raw materials are needed to manufacture digital devices — including arsenic, copper, and palladium. Mining scars the landscape and toxic chemicals contaminate water supplies. Mining machinery releases large amounts of CO₂.</p>
+    </div>
+    <div class="card cv-amber">
+      <div class="card-icon"><i class="fas fa-mountain"></i></div>
+      <h3>Mining Impacts</h3>
+      <ul>
+        <li>Mining permanently scars and destroys landscapes</li>
+        <li>Toxic runoff contaminates nearby water supplies</li>
+        <li>Heavy mining machinery releases large volumes of CO₂</li>
+        <li>Habitat destruction damages local ecosystems</li>
+        <li>Many materials are classified as conflict minerals</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout cl-violet">
+    <i class="fas fa-info-circle"></i>
+    <p>A single smartphone requires around <strong>70+ different elements</strong> from the periodic table. Many are conflict minerals, mined in dangerous conditions with little environmental regulation.</p>
+  </div>
+
+  <div class="divider"><i class="fas fa-bolt"></i> Energy Consumption</div>
+  <p style="font-size:0.875rem;color:var(--text2);margin-bottom:20px;line-height:1.75">Vast amounts of energy are consumed in the production and functioning of digital equipment, as well as in data centres that power cloud services and the internet.</p>
+  <div class="grid g-2">
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-microchip"></i></div>
+      <h3>Device Manufacturing</h3>
+      <p>Producing a single laptop can consume as much energy as <strong>years of normal operation</strong>. Fabricating semiconductors and circuit boards involves highly energy-intensive chemical processes.</p>
+    </div>
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-server"></i></div>
+      <h3>Data Centres</h3>
+      <p>Global data centres consume around <strong>200–250 TWh of electricity per year</strong> — roughly 1% of global electricity use. They require enormous cooling systems running 24/7 just to prevent overheating.</p>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-wifi"></i></div>
+      <h3>Network Infrastructure</h3>
+      <p>Routers, switches, base stations and undersea cables require continuous power. The internet's global network infrastructure consumes hundreds of terawatt-hours of electricity annually.</p>
+    </div>
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h3>Device Use</h3>
+      <p>Billions of devices running simultaneously — computers, phones, TVs, smart appliances — collectively add up to a significant portion of global electricity demand every year.</p>
+    </div>
+  </div>
+
+  <div class="divider"><i class="fas fa-trash-alt"></i> Disposal &amp; E-waste</div>
+  <div class="grid g-2">
+    <div class="card cv-coral">
+      <div class="card-icon"><i class="fas fa-biohazard"></i></div>
+      <h3>Toxic Landfill</h3>
+      <p>When devices are dumped in landfill, toxic materials like <strong>lead, mercury, and cadmium</strong> leach into soil and groundwater, causing long-term environmental and public health damage to surrounding communities.</p>
+    </div>
+    <div class="card cv-coral">
+      <div class="card-icon"><i class="fas fa-globe-africa"></i></div>
+      <h3>Exported E-waste</h3>
+      <p>Wealthy nations often <strong>export e-waste to developing countries</strong> in West Africa and South/East Asia, where it is burned or broken down by hand with little worker protection, releasing toxic fumes.</p>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Lifecycle Stage</th><th>Key Environmental Issue</th><th>Impact</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Raw Material Extraction</td><td>Landscape scarring, toxic runoff, CO₂ from machinery</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td>Manufacturing</td><td>High energy use, chemical processes, water consumption</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td>Distribution &amp; Packaging</td><td>Transport emissions, plastic packaging waste</td><td><span class="badge badge-med">Medium</span></td></tr>
+      <tr><td>Device Use</td><td>Continuous electricity consumption</td><td><span class="badge badge-med">Medium</span></td></tr>
+      <tr><td>Disposal</td><td>E-waste toxicity, landfill contamination</td><td><span class="badge badge-high">High</span></td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ═══════════════ SECTION 2 ═══════════════ -->
+<div class="section" id="s2" style="--accent:var(--a5);--accentd:var(--a5d);--accentb:rgba(78,205,196,0.2)">
+
+  <div class="sec-header">
+    <div class="sec-eyebrow"><i class="fas fa-recycle"></i> Section 02 · Responsibility &amp; Positive Impact</div>
+    <h1 class="sec-title">Environmental <span>Issues 2</span></h1>
+    <p class="sec-desc">How we can take responsibility for device lifecycles, reduce energy use, and the ways digital technology actually helps the environment.</p>
+  </div>
+
+  <div class="divider" style="color:var(--a2)"><i class="fas fa-sync-alt"></i> Short Replacement Cycle</div>
+  <div class="grid g-2">
+    <div class="card cv-coral">
+      <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h3>The Problem</h3>
+      <p>People replace smartphones on average every <strong>2–3 years</strong> and laptops every 4–5 years — often because of manufacturer pressure rather than device failure. This drives massive and growing e-waste volumes globally.</p>
+    </div>
+    <div class="card cv-coral">
+      <div class="card-icon"><i class="fas fa-ban"></i></div>
+      <h3>Planned Obsolescence</h3>
+      <ul>
+        <li>Manufacturers slow older devices via software updates</li>
+        <li>Batteries become non-replaceable, reducing lifespan</li>
+        <li>Spare parts become unavailable after a few years</li>
+        <li>"Fashion" cycles incentivise unnecessary upgrades</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"><i class="fas fa-user-check"></i> Responsible Ownership</div>
+  <div class="grid g-3">
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-tools"></i></div>
+      <h3>Repair First</h3>
+      <p>Before replacing, attempt repair. Many faults (cracked screens, dead batteries) are fixable. The <strong>Right to Repair</strong> movement pushes for manufacturers to support this legally.</p>
+    </div>
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+      <h3>Sell or Donate</h3>
+      <p>A working device can be resold or donated. Charities, schools, and developing-world programmes give old hardware a second life rather than sending it to landfill.</p>
+    </div>
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-recycle"></i></div>
+      <h3>Proper Recycling</h3>
+      <p>Use certified <strong>WEEE (Waste Electrical and Electronic Equipment)</strong> recycling drop-offs. Many retailers offer trade-in and take-back schemes for responsible disposal.</p>
+    </div>
+  </div>
+
+  <div class="divider"><i class="fas fa-plug"></i> Ways to Reduce Energy Consumption</div>
+  <div class="grid g-2">
+    <div class="card cv-violet">
+      <div class="card-icon"><i class="fas fa-home"></i></div>
+      <h3>At Home / Work</h3>
+      <ul>
+        <li>Enable sleep/hibernate modes on computers</li>
+        <li>Use power-efficient settings and dark mode on OLED screens</li>
+        <li>Turn off devices fully rather than leaving on standby</li>
+        <li>Choose Energy Star–rated equipment when buying</li>
+        <li>Unplug chargers when not in use — they draw phantom power</li>
+      </ul>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-building"></i></div>
+      <h3>Organisationally</h3>
+      <ul>
+        <li>Virtualisation — run multiple virtual machines on one server</li>
+        <li>Move to cloud services with efficient shared infrastructure</li>
+        <li>Power data centres with renewable energy sources</li>
+        <li>Liquid cooling systems more efficient than air cooling</li>
+        <li>Go paperless — digital documents save paper and energy</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider" style="color:var(--a3)"><i class="fas fa-seedling"></i> Positive Impact of Digital Technology</div>
+  <div class="grid g-2">
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-video"></i></div>
+      <h3>Reducing Travel</h3>
+      <p>Video conferencing, remote working, and online services reduce the need for physical travel — significantly cutting aviation and road transport carbon emissions.</p>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-leaf"></i></div>
+      <h3>Smart Agriculture</h3>
+      <p>Sensors and data analytics optimise water and fertiliser use in farming, reducing waste and environmental impact while simultaneously improving crop yields.</p>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-wind"></i></div>
+      <h3>Renewable Energy Management</h3>
+      <p>Digital systems manage smart grids, balancing supply from wind and solar. AI helps predict demand and optimise energy distribution, enabling higher renewable usage.</p>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-print"></i></div>
+      <h3>Paperless Systems</h3>
+      <p>Digital documents, e-tickets, and online billing have drastically reduced paper consumption — saving trees and the energy consumed in traditional print and postal processes.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ SECTION 3 ═══════════════ -->
+<div class="section" id="s3" style="--accent:var(--a1);--accentd:var(--a1d);--accentb:rgba(124,106,255,0.2)">
+
+  <div class="sec-header">
+    <div class="sec-eyebrow"><i class="fas fa-user-shield"></i> Section 03 · Privacy &amp; Digital Footprint</div>
+    <h1 class="sec-title">Personal <span>Data</span></h1>
+    <p class="sec-desc">The data trail you leave online, who benefits from it, who owns it, and how you and organisations can protect it.</p>
+  </div>
+
+  <div class="divider"><i class="fas fa-shoe-prints"></i> Digital Footprint</div>
+  <div class="callout cl-violet">
+    <i class="fas fa-info-circle"></i>
+    <p>Your <strong>digital footprint</strong> is the trail of data you leave behind whenever you use the internet or digital services. It exists in two forms: <strong>active</strong> (data you deliberately share) and <strong>passive</strong> (data collected without your direct knowledge).</p>
+  </div>
+  <div class="grid g-2">
+    <div class="card cv-violet">
+      <div class="card-icon"><i class="fas fa-paper-plane"></i></div>
+      <h3>Active Footprint</h3>
+      <ul>
+        <li>Social media posts, comments, and likes</li>
+        <li>Online purchases and payment details</li>
+        <li>Emails and messages you send</li>
+        <li>Forum posts and reviews you leave</li>
+        <li>Profile information submitted to websites</li>
+      </ul>
+    </div>
+    <div class="card cv-amber">
+      <div class="card-icon"><i class="fas fa-eye-slash"></i></div>
+      <h3>Passive Footprint</h3>
+      <ul>
+        <li>Websites you browse (tracked via cookies)</li>
+        <li>Location data collected from your phone</li>
+        <li>Search history logged by search engines</li>
+        <li>Device and browser fingerprinting data</li>
+        <li>IP address logged by websites you visit</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"><i class="fas fa-balance-scale"></i> Benefits &amp; Drawbacks of Data Collection</div>
+  <table class="data-table">
+    <thead><tr><th>✅ Benefits</th><th>❌ Drawbacks / Risks</th></tr></thead>
+    <tbody>
+      <tr><td>Personalised recommendations (Netflix, Spotify, Amazon)</td><td>Privacy invasion — data collected without full understanding</td></tr>
+      <tr><td>Targeted advertising — see relevant, useful ads</td><td>Data breaches — personal info can be stolen by hackers</td></tr>
+      <tr><td>Improved services — feedback drives product improvement</td><td>Data sold to third parties without consent</td></tr>
+      <tr><td>Health tracking — fitness apps monitor wellbeing</td><td>Used for price discrimination (higher prices for some users)</td></tr>
+      <tr><td>Convenience — forms auto-filled, passwords saved</td><td>Profiling and manipulation via targeted political messaging</td></tr>
+      <tr><td>Fraud detection using behaviour patterns</td><td>Permanent record — hard to delete, can affect future opportunities</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"><i class="fas fa-database"></i> Owning the Data</div>
+  <div class="grid g-3">
+    <div class="card cv-violet">
+      <div class="card-icon"><i class="fas fa-user"></i></div>
+      <h3>The User's View</h3>
+      <p>Many argue <strong>you own your own data</strong>. It describes your life, behaviour, and identity — a digital reflection of you that should be under your personal control.</p>
+    </div>
+    <div class="card cv-amber">
+      <div class="card-icon"><i class="fas fa-building"></i></div>
+      <h3>The Company's View</h3>
+      <p>Companies claim ownership because they built the platform and infrastructure. Terms &amp; conditions grant them wide usage rights that users agree to, often without reading them.</p>
+    </div>
+    <div class="card cv-mint">
+      <div class="card-icon"><i class="fas fa-landmark"></i></div>
+      <h3>The Legal View</h3>
+      <p>Under GDPR and the DPA 2018, individuals have rights over their data — including the right to access, correct, and delete it. The ICO enforces these rights in the UK.</p>
+    </div>
+  </div>
+  <div class="callout cl-coral">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p><strong>Right to be forgotten problem:</strong> Once data is shared or collected, it is very difficult to remove entirely. Deleted accounts may still leave data in backups, third-party copies, or cached pages — this is the core challenge of the "right to be forgotten."</p>
+  </div>
+
+  <div class="divider"><i class="fas fa-shield-alt"></i> Protecting Personal Data</div>
+  <div class="grid g-2">
+    <div class="card cv-violet">
+      <div class="card-icon"><i class="fas fa-user-lock"></i></div>
+      <h3>What You Can Do</h3>
+      <ul>
+        <li>Use strong, unique passwords and a password manager</li>
+        <li>Enable two-factor authentication (2FA)</li>
+        <li>Review app permissions — disable unnecessary access</li>
+        <li>Use a VPN to mask your IP address</li>
+        <li>Clear cookies and browsing history regularly</li>
+        <li>Read (or skim) privacy policies before signing up</li>
+      </ul>
+    </div>
+    <div class="card cv-teal">
+      <div class="card-icon"><i class="fas fa-building"></i></div>
+      <h3>What Organisations Must Do</h3>
+      <ul>
+        <li>Store only data that is necessary (data minimisation)</li>
+        <li>Encrypt data in transit and at rest</li>
+        <li>Obtain clear, informed consent before collecting data</li>
+        <li>Notify users and regulators in the event of a breach</li>
+        <li>Appoint a Data Protection Officer (DPO) if required</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ SECTION 4 ═══════════════ -->
+<div class="section" id="s4" style="--accent:var(--a2);--accentd:var(--a2d);--accentb:rgba(255,107,107,0.2)">
+
+  <div class="sec-header">
+    <div class="sec-eyebrow"><i class="fas fa-gavel"></i> Section 04 · UK Law &amp; Regulation</div>
+    <h1 class="sec-title"><span>Legislation</span></h1>
+    <p class="sec-desc">The key UK laws that govern how computers and data must be used — the DPA 2018, the Computer Misuse Act, and cookie regulations.</p>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-card" style="--accent:var(--a2)"><div class="stat-num">£17.5M</div><div class="stat-label">Max DPA fine</div></div>
+    <div class="stat-card" style="--accent:var(--a2)"><div class="stat-num">4%</div><div class="stat-label">Of global turnover (alt. fine)</div></div>
+    <div class="stat-card" style="--accent:var(--a2)"><div class="stat-num">LIFE</div><div class="stat-label">Max CMA sentence (S3ZA)</div></div>
+    <div class="stat-card" style="--accent:var(--a2)"><div class="stat-num">8</div><div class="stat-label">DPA data principles</div></div>
+  </div>
+
+  <!-- DPA -->
+  <div class="law-card">
+    <div class="law-header">
+      <div class="law-icon" style="background:var(--a5d);color:var(--a5)"><i class="fas fa-database"></i></div>
+      <div>
+        <div class="law-title">Data Protection Act 2018 (DPA)</div>
+        <div class="law-sub">UK implementation of GDPR</div>
+      </div>
+      <div class="law-year" style="background:var(--a5d);color:var(--a5)">2018</div>
+    </div>
+    <div class="law-body">
+      <p>The DPA 2018 is the UK's implementation of the EU's <strong>General Data Protection Regulation (GDPR)</strong>. It governs how personal data must be collected, stored, and used by organisations.</p>
+      <p><strong>The eight principles of data protection (GDPR-aligned):</strong></p>
+      <div class="grid g-4" style="margin-top:12px">
+        <div class="steps" style="--accent:var(--a5)">
+          <div class="step"><span class="step-num">1</span> Processed lawfully, fairly, and transparently</div>
+          <div class="step"><span class="step-num">2</span> Collected for specified, explicit, and legitimate purposes</div>
+          <div class="step"><span class="step-num">3</span> Adequate, relevant, and limited to what is necessary</div>
+          <div class="step"><span class="step-num">4</span> Accurate and kept up to date</div>
+        </div>
+        <div class="steps" style="--accent:var(--a5)">
+          <div class="step"><span class="step-num">5</span> Not kept longer than necessary</div>
+          <div class="step"><span class="step-num">6</span> Processed securely with appropriate safeguards</div>
+          <div class="step"><span class="step-num">7</span> Not transferred outside the UK without adequate protection</div>
+          <div class="step"><span class="step-num">8</span> Accountability — organisations must demonstrate compliance</div>
+        </div>
+      </div>
+      <p style="margin-top:16px"><strong>Individual rights under DPA/GDPR:</strong> Right to access data held about you · Right to rectification (correction) · Right to erasure ("right to be forgotten") · Right to restrict or object to processing · Right to data portability</p>
+      <p>Penalties for non-compliance can reach <strong>£17.5 million or 4% of global annual turnover</strong>, whichever is higher. The <strong>ICO (Information Commissioner's Office)</strong> enforces the Act in the UK.</p>
+    </div>
+  </div>
+
+  <!-- CMA -->
+  <div class="law-card">
+    <div class="law-header">
+      <div class="law-icon" style="background:var(--a2d);color:var(--a2)"><i class="fas fa-laptop-code"></i></div>
+      <div>
+        <div class="law-title">Computer Misuse Act 1990 (CMA)</div>
+        <div class="law-sub">Updated 2015 for modern cybercrime</div>
+      </div>
+      <div class="law-year" style="background:var(--a2d);color:var(--a2)">1990</div>
+    </div>
+    <div class="law-body">
+      <p>The CMA criminalises unauthorised access to computer systems and data. It was introduced following high-profile hacking cases in the 1980s and has been updated to address modern cybercrime.</p>
+      <div class="grid g-4">
+        <div class="card cv-coral">
+          <div class="card-icon"><i class="fas fa-lock-open"></i></div>
+          <h3>Section 1 — Unauthorised Access</h3>
+          <p>Accessing a computer system without permission (e.g. guessing someone's password to read their emails). Up to <strong>2 years imprisonment</strong>.</p>
+        </div>
+        <div class="card cv-coral">
+          <div class="card-icon"><i class="fas fa-user-secret"></i></div>
+          <h3>Section 2 — Access to Commit</h3>
+          <p>Unauthorised access with intent to commit a further crime such as fraud or blackmail. Up to <strong>5 years imprisonment</strong>.</p>
+        </div>
+        <div class="card cv-coral">
+          <div class="card-icon"><i class="fas fa-bug"></i></div>
+          <h3>Section 3 — Unauthorised Modification</h3>
+          <p>Modifying or damaging computer material without permission — includes deploying malware, ransomware, or deleting data. Up to <strong>10 years imprisonment</strong>.</p>
+        </div>
+        <div class="card cv-coral">
+          <div class="card-icon"><i class="fas fa-radiation"></i></div>
+          <h3>Section 3ZA — Serious Damage <small style="font-size:.7em;opacity:.7">(added 2015)</small></h3>
+          <p>Attacks on critical national infrastructure — power grids, hospitals, water systems. Can result in a <strong>life sentence</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COOKIES / PECR -->
+  <div class="law-card">
+    <div class="law-header">
+      <div class="law-icon" style="background:var(--a4d);color:var(--a4)"><i class="fas fa-cookie-bite"></i></div>
+      <div>
+        <div class="law-title">Cookies &amp; PECR</div>
+        <div class="law-sub">Privacy &amp; Electronic Communications Regulations</div>
+      </div>
+      <div class="law-year" style="background:var(--a4d);color:var(--a4)">2003 / 2011</div>
+    </div>
+    <div class="law-body">
+      <p>The <strong>Privacy and Electronic Communications Regulations (PECR)</strong> sit alongside the DPA and govern cookies and electronic marketing.</p>
+      <div class="grid g-2">
+        <div class="card cv-amber">
+          <div class="card-icon"><i class="fas fa-cookie"></i></div>
+          <h3>What Are Cookies?</h3>
+          <p>Small text files stored on your device by websites you visit. They remember your preferences, login state, shopping basket contents, and track your behaviour across the web.</p>
+        </div>
+        <div class="card cv-amber">
+          <div class="card-icon"><i class="fas fa-list"></i></div>
+          <h3>Types of Cookies</h3>
+          <ul>
+            <li>Session cookies — deleted when the browser closes</li>
+            <li>Persistent cookies — remain for a set duration</li>
+            <li>First-party cookies — set by the site you visit</li>
+            <li>Third-party cookies — from advertisers and trackers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout cl-amber">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>Under PECR, websites must <strong>obtain consent</strong> before setting non-essential cookies. Users must be told what cookies are used, why, and how long they last. <strong>Strictly necessary cookies</strong> (e.g. keeping you logged in) do not require consent.</p>
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-mint">Consent Required</span>
+        <span class="tag tag-teal">Analytics Cookies</span>
+        <span class="tag tag-coral">Marketing Cookies</span>
+        <span class="tag tag-amber">Strictly Necessary = Exempt</span>
+        <span class="tag tag-violet">ICO Enforces</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout cl-mint">
+    <i class="fas fa-graduation-cap"></i>
+    <p><strong>Exam tip:</strong> You may be asked to name specific laws, outline what they cover, or explain how they protect individuals. Know the DPA 2018 principles, the three main sections of the CMA and their sentences, and the rule on cookie consent. Always link the law to a real-world scenario in longer answers.</p>
+  </div>
+
+</div>
+</div><!-- /page -->
+
+<script>
+const pcts = ['25%','50%','75%','100%'];
+
+function go(n) {
+  // sections
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('s' + n);
+  if (sec) { sec.classList.add('active'); }
+  // tabs
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i + 1 === n));
+  // progress
+  document.getElementById('pf').style.width = pcts[n - 1];
+  document.getElementById('pct').textContent = pcts[n - 1];
+  // scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let light = false;
+function toggleTheme() {
+  light = !light;
+  document.body.classList.toggle('light', light);
+  document.getElementById('ticon').className = light ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+// init
+go(1);
+</script>
+</body>
+</html>
